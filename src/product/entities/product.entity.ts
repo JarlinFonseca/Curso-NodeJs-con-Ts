@@ -1,30 +1,27 @@
-﻿import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from "typeorm";
 import { BaseEntity } from "../../config/base.entity";
+import { CustomerEntity } from "../../customer/entitites/customer.entity";
 import { CategoryEntity } from "../../category/entities/category.entity";
-import { PurchaseProductEntity } from "../../custom/entities/purchases-products.entity";
+import { PurchaseProductEntity } from "../../purchase/entitites/purchases-products.entity";
 
+@Entity({ name: "product" })
+export class ProductEntity extends BaseEntity {
+  @Column()
+  productName!: string;
 
-@Entity({name: "product"})
-export class ProductEntity extends BaseEntity{
+  @Column()
+  description!: string;
 
-    @Column()
-    productName!: string;
+  @Column()
+  price!: number;
 
-    @Column()
-    description!: string;
+  @ManyToOne(() => CategoryEntity, (category) => category.products)
+  @JoinColumn({ name: "category_id" })
+  category!: CategoryEntity;
 
-    @Column()
-    price!: number;
-
-    @ManyToOne(()=> CategoryEntity, (category)=> category.products)
-    @JoinColumn({name: "category_id"})
-    category!: CategoryEntity;
-
-    @OneToMany(()=> PurchaseProductEntity, (purchaseProduct)=> purchaseProduct.product)
-    purchaseProduct!: PurchaseProductEntity[];
-
-
-
-
-
+  @OneToMany(
+    () => PurchaseProductEntity,
+    (purchaseProduct) => purchaseProduct.product
+  )
+  purchaseProduct!: PurchaseProductEntity[];
 }
