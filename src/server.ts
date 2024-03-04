@@ -8,6 +8,7 @@ import { ProductRouter } from "./product/product.router";
 import { CustomerRouter } from "./customer/customer.router";
 import { CategoryRouter } from "./category/category.router";
 import { PurchaseProductRouter } from "./purchase/purchase-product.router";
+import { DataSource } from "typeorm";
 
 class ServerBootstrap extends ConfigServer {
   public app: express.Application = express();
@@ -18,7 +19,7 @@ class ServerBootstrap extends ConfigServer {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
-    this.dbConnect();
+    this.dbConecct();
 
     this.app.use(morgan("dev"));
     this.app.use(cors());
@@ -36,6 +37,14 @@ class ServerBootstrap extends ConfigServer {
       new CategoryRouter().router,
       new PurchaseProductRouter().router,
     ];
+  }
+
+  async dbConecct(): Promise<DataSource | void>{
+    return this.initConnect.then(()=>{
+      console.log("Connect Success")
+    }).catch((err)=>{
+      console.error(err)
+    })
   }
 
   public listen() {
