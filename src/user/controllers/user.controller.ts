@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
-import { HttResponse } from "../../shared/response/http.response";
+import { HttpResponse } from "../../shared/response/http.response";
 import { DeleteResult, UpdateResult } from "typeorm";
 
 export class UserController {
   constructor(
     private readonly userService: UserService = new UserService(), 
-    private readonly httpResponse: HttResponse = new HttResponse()) {}
+    private readonly httpResponse: HttpResponse = new HttpResponse()) {}
   async getUsers(req: Request, res: Response) {
     try {
       const data = await this.userService.findAllUser();
