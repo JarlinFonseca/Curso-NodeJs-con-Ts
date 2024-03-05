@@ -3,11 +3,12 @@ import { NextFunction, Request, Response } from "express";
 
 import { HttpResponse } from "../../shared/response/http.response";
 import { CustomerDTO } from "../dto/customer.dto";
+import { SharedMiddleware } from "../../shared/middlewares/shared.middleware";
 
-export class CustomerMiddleware {
-  constructor(
-    private readonly httpResponse: HttpResponse = new HttpResponse()
-  ) {}
+export class CustomerMiddleware extends SharedMiddleware {
+  constructor() {
+    super()
+  }
   customerValidator(req: Request, res: Response, next: NextFunction) {
     const { address, dni, user } = req.body;
 
